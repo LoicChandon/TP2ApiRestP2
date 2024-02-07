@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -11,6 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TP2ApiRestP2.ViewModels;
+using TP2ApiRestP2.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -26,6 +29,8 @@ namespace TP2ApiRestP2
     /// </summary>
     public partial class App : Application
     {
+        public ServiceProvider Services { get; }
+        public static FrameworkElement MainRoot { get; private set; }
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -33,8 +38,11 @@ namespace TP2ApiRestP2
         public App()
         {
             this.InitializeComponent();
+            ServiceCollection services = new ServiceCollection();
+            services.AddTransient<SeriesDBViewModel>();
+            Services = services.BuildServiceProvider();
         }
-
+        public new static App Current => (App)Application.Current;
         /// <summary>
         /// Invoked when the application is launched.
         /// </summary>
@@ -42,7 +50,11 @@ namespace TP2ApiRestP2
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             m_window = new MainWindow();
+            Frame rootFrame = new Frame();
+            this.m_window.Content = rootFrame;
             m_window.Activate();
+            rootFrame.Navigate(typeof(ViewSerie));
+            MainRoot = m_window.Content as FrameworkElement;
         }
 
         private Window m_window;
