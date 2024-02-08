@@ -7,21 +7,48 @@
     xmlns:local="using:TP2ApiRestP2.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    RequestedTheme="Dark"
     mc:Ignorable="d">
 
     <RelativePanel RelativePanel.AlignHorizontalCenterWithPanel="True">
         <TextBlock
-            x:Name="Titre"
-            Margin="0,50,0,5"
+            x:Name="NumSerie"
+            Margin="0,50,0,10"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
+            Text="Numéro de série à afficher" />
+
+        <TextBox
+            x:Name="TbNumSerie"
+            Margin="0,0,0,15"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Below="NumSerie"
+            Text="{Binding IdRecherche, Mode=TwoWay}" />
+
+        <Button
+            Name="BtRechercher"
+            Width="200"
+            Margin="0,0,0,30"
+            Command="{Binding BtRechercher, Mode=TwoWay}"
+            Content="Rechercher"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Below="TbNumSerie" />
+
+
+
+        <TextBlock
+            x:Name="Titre"
+            Margin="0,0,0,5"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Below="BtRechercher"
             Text="Titre" />
+
         <TextBox
             x:Name="TbTitre"
             Width="500"
             Margin="0,0,0,10"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="Titre"
-            Text="{Binding Titre, Mode=TwoWay}" />
+            Text="{Binding SerieToAdd.Titre, Mode=TwoWay}" />
 
         <TextBlock
             x:Name="Resume"
@@ -37,7 +64,7 @@
             Margin="0,0,0,10"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="Resume"
-            Text="{Binding Resume, Mode=TwoWay}" />
+            Text="{Binding SerieToAdd.Resume, Mode=TwoWay}" />
 
         <TextBlock
             x:Name="NbSaisons"
@@ -52,7 +79,7 @@
             Margin="0,0,0,10"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="NbSaisons"
-            Text="{Binding NbSaisons, Mode=TwoWay}" />
+            Text="{Binding SerieToAdd.NbSaisons, Mode=TwoWay}" />
 
         <TextBlock
             x:Name="NbEpisodes"
@@ -67,7 +94,7 @@
             Margin="0,0,0,10"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="NbEpisodes"
-            Text="{Binding NbEpisodes, Mode=TwoWay}" />
+            Text="{Binding SerieToAdd.NbEpisodes, Mode=TwoWay}" />
 
         <TextBlock
             x:Name="AnneeCreation"
@@ -82,7 +109,7 @@
             Margin="0,0,0,10"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="AnneeCreation"
-            Text="{Binding AnneeCreation, Mode=TwoWay}" />
+            Text="{Binding SerieToAdd.AnneeCreation, Mode=TwoWay}" />
 
         <TextBlock
             x:Name="Chaine"
@@ -94,16 +121,35 @@
         <TextBox
             x:Name="TbChaine"
             Width="250"
-            Margin="0,0,0,10"
+            Margin="0,0,0,30"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="Chaine"
-            Text="{Binding Network, Mode=TwoWay}" />
+            Text="{Binding SerieToAdd.Network, Mode=TwoWay}" />
 
         <Button
             Name="BtAjouter"
-            Margin="0,0,0,15"
+            Width="200"
+            Margin="-350,0,0,15"
             Command="{Binding BtAjouter, Mode=TwoWay}"
             Content="Ajouter"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Below="TbChaine" />
+
+        <Button
+            Name="BtModifier"
+            Width="200"
+            Margin="0,0,0,15"
+            Command="{Binding BtModifier, Mode=TwoWay}"
+            Content="Modifier"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Below="TbChaine" />
+
+        <Button
+            Name="BtSupprimer"
+            Width="200"
+            Margin="500,0,0,15"
+            Command="{Binding BtSupprimer, Mode=TwoWay}"
+            Content="Supprimer"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="TbChaine" />
 

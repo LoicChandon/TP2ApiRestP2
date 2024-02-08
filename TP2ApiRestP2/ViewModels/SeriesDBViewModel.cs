@@ -23,56 +23,37 @@ namespace TP2ApiRestP2.ViewModels
                 OnPropertyChanged();
             }
         }
-        private string titre;
-        public string Titre
+        private Serie serieToAdd;
+        
+        public Serie SerieToAdd
         {
-            get { return titre; }
-            set { titre = value; }
+            get { return serieToAdd; }
+            set { serieToAdd = value; OnPropertyChanged(); }
         }
-        private string resume;
+        private int idRecherche;
 
-        public string Resume
+        public int IdRecherche
         {
-            get { return resume; }
-            set { resume = value; }
+            get { return idRecherche; }
+            set { idRecherche = value; OnPropertyChanged(); }
         }
 
-        private int nbSaisons;
-
-        public int NbSaisons
-        {
-            get { return nbSaisons; }
-            set { nbSaisons = value; }
-        }
-        private int nbEpisodes;
-
-        public int NbEpisodes
-        {
-            get { return nbEpisodes; }
-            set { nbEpisodes = value; }
-        }
-        private int anneeCreation;
-
-        public int AnneeCreation
-        {
-            get { return anneeCreation; }
-            set { anneeCreation = value; }
-        }
-        private string network;
-
-        public string Network
-        {
-            get { return network; }
-            set { network = value; }
-        }
 
 
         public IRelayCommand BtAjouter { get; }
+        public IRelayCommand BtRechercher { get; }
+        public IRelayCommand BtModifier { get; }
+        public IRelayCommand BtSupprimer { get; }
         public SeriesDBViewModel()
         {
             GetDataLoadAsync();
             //Boutons
             BtAjouter = new RelayCommand(ActionAjouterSerie);
+            BtRechercher = new RelayCommand(ActionRechercherSerie);
+            BtModifier = new RelayCommand(ActionModifierSerie);
+            BtSupprimer = new RelayCommand(ActionSupprimerSerie);
+
+            SerieToAdd = new Serie();
         }
         private async void GetDataLoadAsync()
         {
@@ -101,13 +82,32 @@ namespace TP2ApiRestP2.ViewModels
         private async void ActionAjouterSerie()
         {
             WSService service = new WSService("https://apiserieschaloi.azurewebsites.net/api/");
-            bool result = await service.PostSerieAsync("series",Titre,Resume,NbSaisons,NbEpisodes,AnneeCreation,Network);
+            bool result = await service.PostSerieAsync("series",SerieToAdd);
             if (!result)
             {
                 MessageAsync("Erreur", "Erreur lors de l'insertion des valeurs");
             }
             else
                 MessageAsync("Réussite", "La série a bien été insérée");
+        }
+        private async void ActionRechercherSerie()
+        {
+            WSService service = new WSService("https://apiserieschaloi.azurewebsites.net/api/");
+            Serie serieAAfficher = await service.GetSerieAsync("series",IdRecherche);
+            if (serieAAfficher == null)
+            {
+                MessageAsync("Erreur", "Erreur lors de la recherche");
+            }
+            else
+                SerieToAdd = serieAAfficher;
+        }
+        private async void ActionModifierSerie()
+        {
+
+        }
+        private async void ActionSupprimerSerie()
+        {
+
         }
     }
 }

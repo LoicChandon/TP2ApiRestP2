@@ -37,11 +37,6 @@ namespace TP2ApiRestP2.Services
             }
         }
 
-        public Task<bool> DeleteSerieAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<List<Serie>> GetAll(string nomControleur)
         {
             try
@@ -54,15 +49,22 @@ namespace TP2ApiRestP2.Services
             }
         }
 
-        public async Task<Serie> GetSerieAsync(int id)
+        public async Task<Serie> GetSerieAsync(string nomControleur,int id)
         {
-            throw new NotImplementedException();
+            string chaineAppelAPI = string.Concat(nomControleur,"/",id);
+            try
+            {
+                return await client.GetFromJsonAsync<Serie>(chaineAppelAPI);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public async Task<bool> PostSerieAsync(string nomControleur, string titre, string resume, int nbSaisons, int nbEpisodes, int anneeCreation, string network)
+        public async Task<bool> PostSerieAsync(string nomControleur, Serie serieToAdd)
         {
-            Serie serie = new Serie(titre,resume,nbSaisons,nbEpisodes,anneeCreation,network);
-            var response = await client.PostAsJsonAsync(nomControleur, serie);
+            var response = await client.PostAsJsonAsync(nomControleur, serieToAdd);
             try
             {
                 response.EnsureSuccessStatusCode();
