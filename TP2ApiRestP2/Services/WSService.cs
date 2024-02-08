@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TP2ApiRest.Models.EntityFramework;
 
@@ -12,7 +13,7 @@ namespace TP2ApiRestP2.Services
 {
     public class WSService : IService
     {
-        string uri = new string("http://localhost:12278/api/");
+        string uri = new string("https://apiserieschaloi.azurewebsites.net/api/");
         HttpClient client = new HttpClient();
         public WSService(string uri)
         {
@@ -58,19 +59,19 @@ namespace TP2ApiRestP2.Services
             throw new NotImplementedException();
         }
 
-        public async Task<bool> PostSerieAsync(string nomControleur, Serie serie)
+        public async Task<bool> PostSerieAsync(string nomControleur, string titre, string resume, int nbSaisons, int nbEpisodes, int anneeCreation, string network)
         {
-            throw new NotImplementedException();
-            //var response = await client.PostAsync(nomControleur, serie);
-            //try
-            //{
-            //    response.EnsureSuccessStatusCode();
-            //    return true;
-            //}
-            //catch (HttpRequestException)
-            //{
-            //    return false;
-            //}
+            Serie serie = new Serie(titre,resume,nbSaisons,nbEpisodes,anneeCreation,network);
+            var response = await client.PostAsJsonAsync(nomControleur, serie);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (HttpRequestException)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> PutSerieAsync(Serie serie)

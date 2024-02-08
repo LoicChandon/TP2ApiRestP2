@@ -11,7 +11,7 @@ namespace TP2ApiRestP2.Services
     {
         Task<List<Serie>> GetAll(string nomControleur);
         Task<bool> PutSerieAsync(string nomControleur);
-        Task<bool> PostSerieAsync(string nomControleur, Serie serie);
+        Task<bool> PostSerieAsync(string nomControleur, string titre, string resume, int nbSaisons, int nbEpisodes, int anneeCreation, string network);
         Task<bool> DeleteSerieAsync(int id);
         Task<Serie> GetSerieAsync(int id);
     }
