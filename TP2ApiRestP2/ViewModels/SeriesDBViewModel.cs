@@ -87,6 +87,10 @@ namespace TP2ApiRestP2.ViewModels
             {
                 MessageAsync("Erreur", "Erreur lors de l'insertion des valeurs");
             }
+            else if (SerieToAdd.SerieId != null || SerieToAdd.SerieId != 0)
+            {
+                MessageAsync("Erreur", "Veuillez mettre le 1er champ (numéro de saisie) vide ou 0");
+            }
             else
                 MessageAsync("Réussite", "La série a bien été insérée");
         }
