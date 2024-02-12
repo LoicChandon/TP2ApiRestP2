@@ -23,9 +23,9 @@ namespace TP2ApiRestP2.Services
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
-        public async Task<bool> DeleteSerieAsync(string nomControleur)
+        public async Task<bool> DeleteSerieAsync(string nomControleur, int id)
         {
-            var response = await client.DeleteAsync(nomControleur);
+            var response = await client.DeleteAsync($"{nomControleur}/{id}");
             try
             {
                 response.EnsureSuccessStatusCode();
@@ -76,14 +76,18 @@ namespace TP2ApiRestP2.Services
             }
         }
 
-        public async Task<bool> PutSerieAsync(Serie serie)
+        public async Task<bool> PutSerieAsync(string nomControleur,Serie serieToPut)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> PutSerieAsync(string nomControleur)
-        {
-            throw new NotImplementedException();
+            var response = await client.PutAsJsonAsync($"{nomControleur}/{serieToPut.SerieId}", serieToPut);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return true;
+            }
+            catch (HttpRequestException)
+            {
+                return false;
+            }
         }
     }
 }

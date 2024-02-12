@@ -83,13 +83,10 @@ namespace TP2ApiRestP2.ViewModels
         {
             WSService service = new WSService("https://apiserieschaloi.azurewebsites.net/api/");
             bool result = await service.PostSerieAsync("series",SerieToAdd);
+            SerieToAdd.SerieId = 0;
             if (!result)
             {
-                MessageAsync("Erreur", "Erreur lors de l'insertion des valeurs");
-            }
-            else if (SerieToAdd.SerieId != null || SerieToAdd.SerieId != 0)
-            {
-                MessageAsync("Erreur", "Veuillez mettre le 1er champ (numéro de saisie) vide ou 0");
+                MessageAsync("Erreur", "Erreur lors de l'insertion des valeurs, veuillez remplir tous les champs.");
             }
             else
                 MessageAsync("Réussite", "La série a bien été insérée");
@@ -107,11 +104,25 @@ namespace TP2ApiRestP2.ViewModels
         }
         private async void ActionModifierSerie()
         {
-
+            WSService service = new WSService("https://apiserieschaloi.azurewebsites.net/api/");
+            bool result = await service.PutSerieAsync("series",serieToAdd);
+            if (!result)
+            {
+                MessageAsync("Erreur", "Erreur lors de la modification des valeurs, veuillez remplir tous les champs.");
+            }
+            else
+                MessageAsync("Réussite", "La série a bien été modifée");
         }
         private async void ActionSupprimerSerie()
         {
-
+            WSService service = new WSService("https://apiserieschaloi.azurewebsites.net/api/");
+            bool result = await service.DeleteSerieAsync("series", IdRecherche);
+            if (!result)
+            { 
+                MessageAsync("Erreur", "Erreur lors de la suppression des valeurs");
+            }
+            else
+                MessageAsync("Réussite", "La série a bien été supprimée");
         }
     }
 }
